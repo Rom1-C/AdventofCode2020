@@ -120,8 +120,6 @@ int main(){
 
     cout << "Part 2 : " << result << endl;
 
-    result = 0;
-
     auto stop = high_resolution_clock::now(); 
     auto duration = duration_cast<microseconds>(stop - start);
     std::cout << "Time taken by function: "
