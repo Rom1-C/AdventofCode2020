@@ -6,32 +6,17 @@
 #include <vector>
 #include <string>
 #include <tuple>
+#include <set>
 
 #define ull unsigned long long
 
 using namespace std;
 using namespace std::chrono;
 
-bool present(vector<tuple<int,int,int>> vect , tuple<int,int,int> t){
-    for (auto v : vect){
-        if (get<0>(v) == get<0>(t) && get<1>(v) == get<1>(t) && get<2>(v) == get<2>(t))
-            return true;
-    }
-    return false;
-}
-
-bool present2(vector<tuple<int,int,int,int>> vect , tuple<int,int,int,int> t){
-    for (auto v : vect){
-        if (get<0>(v) == get<0>(t) && get<1>(v) == get<1>(t) && get<2>(v) == get<2>(t) && get<3>(v) == get<3>(t))
-            return true;
-    }
-    return false;
-}
-
 int main(){
     auto start = high_resolution_clock::now();
-    vector<tuple<int,int,int>> alph;
-    vector<tuple<int,int,int,int>> save;
+    set<tuple<int,int,int>> alph;
+    set<tuple<int,int,int,int>> save;
     ifstream in;
     in.open("Day17.txt");
     bool find;
@@ -41,8 +26,8 @@ int main(){
     while (!in.eof()){
         in.get(input);
         if (input == '#'){
-            alph.push_back({x,y,0});
-            save.push_back({x,y,0,0});
+            alph.insert({x,y,0});
+            save.insert({x,y,0,0});
         }
         x++;
         
@@ -56,10 +41,8 @@ int main(){
         
     }
 
-    cout << alph.size() << endl;
-
     for (int i = 0 ; i < 6 ; i++){
-        vector<tuple<int,int,int>> alpb;
+        set<tuple<int,int,int>> alpb;
         for (int j = -1-i ; j < 9+i ; j++){
             for (int k = -1-i ; k <9+i ; k++){
                 for (int l = -1-i ; l<2+i ; l++){
@@ -68,7 +51,7 @@ int main(){
                         for (int dk = -1 ; dk < 2 ; dk++){
                             for (int dl = -1 ; dl < 2 ; dl++){
                                 if (dj != 0 || dk !=0 || dl != 0){
-                                    if (present(alph,{j+dj,k+dk,l+dl})){
+                                    if (alph.count({j+dj,k+dk,l+dl}) > 0){
                                         num ++;
                                     }
                                 }
@@ -76,25 +59,22 @@ int main(){
                         }
                     }
 
-                    if (!present(alph,{j,k,l}) && num == 3 && !present(alpb,{j,k,l})){
-                        alpb.push_back({j,k,l});
+                    if (alph.count({j,k,l}) == 0 && num == 3){
+                        alpb.insert({j,k,l});
                     }
-                    if (present(alph,{j,k,l}) && num==2 || num==3 && !present(alpb,{j,k,l})){
-                        alpb.push_back({j,k,l});
+                    if (alph.count({j,k,l}) > 0&& num==2 || num==3){
+                        alpb.insert({j,k,l});
                     }
                 }
             }
         }
-        alph.clear();
-        for (auto v : alpb){
-            alph.push_back(v);
-        }
+        alph = alpb;
     }
 
     cout << "Part 1 : " << alph.size() << endl;
 
     for (int i = 0 ; i < 6 ; i++){
-        vector<tuple<int,int,int,int>> alpb;
+        set<tuple<int,int,int,int>> alpb;
         for (int j = -1-i ; j < 9+i ; j++){
             for (int k = -1-i ; k <9+i ; k++){
                 for (int l = -1-i ; l<2+i ; l++){
@@ -105,7 +85,7 @@ int main(){
                                 for (int dl = -1 ; dl < 2 ; dl++){
                                     for (int dm = -1 ; dm<2 ; dm++){
                                         if (dj != 0 || dk !=0 || dl != 0 || dm!=0){
-                                            if (present2(save,{j+dj,k+dk,l+dl,m+dm})){
+                                            if (save.count({j+dj,k+dk,l+dl,m+dm}) > 0 ){
                                                 num ++;
                                             }
                                         }
@@ -113,20 +93,17 @@ int main(){
                                 }
                             }
                         }
-                        if (!present2(save,{j,k,l,m}) && num == 3 && !present2(alpb,{j,k,l,m})){
-                            alpb.push_back({j,k,l,m});
+                        if (save.count({j,k,l,m}) == 0 && num == 3){
+                            alpb.insert({j,k,l,m});
                         }
-                        if (present2(save,{j,k,l,m}) && num==2 || num==3 && !present2(alpb,{j,k,l,m})){
-                            alpb.push_back({j,k,l,m});
+                        if (save.count({j,k,l,m}) > 0 && num==2 || num==3){
+                            alpb.insert({j,k,l,m});
                         }
                     }
                 }
             }
         }
-        save.clear();
-        for (auto v : alpb){
-            save.push_back(v);
-        }
+        save =alpb;
     }
 
     cout << "Part 2 : " << save.size() << endl;
