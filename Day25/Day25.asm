@@ -50,16 +50,16 @@ _atoi:					; Convert input to int
 	inc rsi
 	cmp byte [rsi], 10
 	jne .inner
-	push rax			; Save number in the stack
+	push rax			; Save number on the stack
 	inc rsi
 	cmp rsi, rdi
 	jne .setup
 	pop r10				; Put card's code in r10
 	pop r15				; and door's code in r15
 	mov r14, 7			; The subject number
-	mov rdx, 1			; Thue value
+	mov rdx, 1			; The value
 	xor rcx, rcx		; Counter of loops
-	mov rdi, 20201227	; Thde divider
+	mov rdi, 20201227	; The divider
 
 _solv:
 
