@@ -41,9 +41,6 @@ int main() {
     for (int i = 0 ; i < m ; i++){
         alph.insert({modulo(7,i,20201227),i});
     }
-    for (int i = 0 ; i < m ; i++){
-        alph[modulo(7,i,20201227)] = i;
-    }
     ull inv = modulo(7,20201225*m,20201227);
     ull res=0;
     for (int i = 0 ; i < m ; i++){
