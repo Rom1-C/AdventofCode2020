@@ -22,20 +22,15 @@ int main() {
     getline(in,input);
     y = atoi(input.c_str());
     ull value = 1;
-    int i=0;
+    ull result = 1;
     while (value != x){
         value*=7;
         value%=20201227;
-        i++;
-    }
-    value = 1;
-    while (i>0){
-        value*=y;
-        value%=20201227;
-        i--;
+        result*=y;
+        result%=20201227;
     }
 
-    cout << value << endl;
+    cout << "Day 25 : " << result << endl;
     
 
 	auto stop = high_resolution_clock::now(); 
